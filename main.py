@@ -3,9 +3,10 @@ import time
 import os
 import pandas as pd
 import math
-import csv  # <-- Adicionado para gerar a planilha
+import csv
 from zoneinfo import ZoneInfo
 from datetime import datetime
+from config import MODO
 
 # --- CONFIGURAÇÃO ---
 # É altamente recomendável usar variáveis de ambiente para dados sensíveis.
@@ -371,7 +372,8 @@ def executar_tarefa(sessao_ativa):
         enviar_mensagem_telegram(mensagem_formatada)
 
         # 3. Gerar a planilha CSV usando os mesmos dados processados
-        gerar_planilha_excel(dados_processados)
+        if MODO != "NUVEM":
+            gerar_planilha_excel(dados_processados)
 
     except requests.exceptions.HTTPError as e:
         print(f"Erro HTTP na requisição: {e.response.status_code} - {e.response.text}")
